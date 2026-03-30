@@ -1249,19 +1249,8 @@ html.lenis { height: auto; }
   box-shadow: 0 0 10px var(--gr-glow);
 }
 .jc {
-  opacity: 0;
-  transform: translateY(calc(-50% + 40px)) !important;
-  pointer-events: none;
-  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
-}
-.jc.on {
-  opacity: 1;
-  transform: translateY(-50%) !important;
-  pointer-events: auto;
-}
-.jc.out {
-  opacity: 0;
-  transform: translateY(calc(-50% - 40px)) !important;
+  /* JS handles all transitions on these cards */
+  will-change: opacity, transform;
 }
 .jt {
   display: inline-block;
@@ -1284,3 +1273,33 @@ html.lenis { height: auto; }
   line-height: 1.9; color: var(--tx-3); max-width: 440px;
 }
 [data-theme="light"] .jb { color: #374151; }
+
+/* Journey depth & atmosphere */
+#journey .jh {
+  text-shadow: 0 2px 40px rgba(34,197,94,0.08);
+}
+#jYear {
+  will-change: opacity, transform, filter;
+}
+#jLoc {
+  will-change: opacity, transform;
+}
+#jBgYr {
+  will-change: opacity, transform;
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+/* Scroll hint */
+#journey::after {
+  content: 'scroll to explore';
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tx-4);
+  opacity: 0.5;
+  pointer-events: none;
+}

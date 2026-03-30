@@ -971,28 +971,103 @@ function initJourney() {
     ];
 
     let cur = -1;
+    let isAnimating = false;
+
+    // Animate individual characters of year
+    function animateYear(newYear) {
+        const chars = newYear.split('');
+        yrEl.style.opacity = '0';
+        yrEl.style.transform = 'translateY(30px)';
+        yrEl.style.filter = 'blur(8px)';
+        setTimeout(() => {
+            yrEl.textContent = newYear;
+            yrEl.style.transition = 'opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1), filter 0.5s ease';
+            yrEl.style.opacity = '1';
+            yrEl.style.transform = 'translateY(0)';
+            yrEl.style.filter = 'blur(0px)';
+        }, 120);
+    }
+
+    function animateLoc(newLoc) {
+        locEl.style.opacity = '0';
+        locEl.style.transform = 'translateX(-12px)';
+        setTimeout(() => {
+            locEl.textContent = newLoc;
+            locEl.style.transition = 'opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s';
+            locEl.style.opacity = '1';
+            locEl.style.transform = 'translateX(0)';
+        }, 150);
+    }
+
+    function animateBgYear(newYear) {
+        bgYr.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        bgYr.style.opacity = '0';
+        bgYr.style.transform = 'translate(-50%,-50%) scale(0.85)';
+        setTimeout(() => {
+            bgYr.textContent = newYear;
+            bgYr.style.transition = 'opacity 0.6s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1)';
+            bgYr.style.opacity = '0.04';
+            bgYr.style.transform = 'translate(-50%,-50%) scale(1)';
+        }, 200);
+    }
 
     function goTo(i) {
         i = Math.max(0, Math.min(N - 1, i));
         if (i === cur) return;
         const prev = cur; cur = i;
-        yrEl.textContent  = SLIDES[i].year;
-        locEl.textContent = SLIDES[i].loc;
-        bgYr.textContent  = SLIDES[i].year;
+
+        // Animate left panel
+        animateYear(SLIDES[i].year);
+        animateLoc(SLIDES[i].loc);
+        animateBgYear(SLIDES[i].year);
+
+        // Dots
         dots.forEach((d, k) => d.classList.toggle('on', k === i));
+
+        // Cards — cinematic in/out
+        const goingForward = i > prev;
         cards.forEach((c, k) => {
-            c.classList.remove('on', 'out');
+            c.classList.remove('on', 'out', 'out-up');
             if (k === i) {
-                c.classList.add('on');
+                // Incoming card: set start position then animate in
+                c.style.transition = 'none';
+                c.style.opacity = '0';
+                c.style.transform = `translateY(calc(-50% + ${goingForward ? 60 : -60}px))`;
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        c.style.transition = 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+                        c.style.opacity = '1';
+                        c.style.transform = 'translateY(-50%)';
+                    });
+                });
             } else if (k === prev && prev >= 0) {
-                c.classList.add('out');
-                setTimeout(() => c.classList.remove('out'), 520);
+                // Outgoing card: animate out in opposite direction
+                c.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.4,0,1,1)';
+                c.style.opacity = '0';
+                c.style.transform = `translateY(calc(-50% + ${goingForward ? -60 : 60}px))`;
+                setTimeout(() => { c.style.transition = 'none'; }, 420);
             }
         });
     }
 
+    // Init styles on cards
+    cards.forEach((c, k) => {
+        c.style.position = 'absolute';
+        c.style.top = '50%';
+        c.style.left = '3rem';
+        c.style.right = '0';
+        c.style.opacity = k === 0 ? '1' : '0';
+        c.style.transform = 'translateY(-50%)';
+        c.style.pointerEvents = k === 0 ? 'auto' : 'none';
+        c.style.transition = 'none';
+    });
+
+    // Init left panel styles for animation
+    yrEl.style.transition = 'none';
+    yrEl.style.filter = 'blur(0px)';
+    locEl.style.transition = 'none';
+
     function update() {
-        // Use Lenis scroll value if available, else native
         const sy = (window._scrollY !== undefined) ? window._scrollY : window.scrollY;
         const outerTop = outer.offsetTop;
         const scrollable = outer.offsetHeight - window.innerHeight;
@@ -1000,12 +1075,13 @@ function initJourney() {
         const p = scrollable > 0 ? Math.min(1, scrolled / scrollable) : 0;
 
         if (bar) bar.style.width = (p * 100).toFixed(1) + '%';
-        if (bgYr) bgYr.style.opacity = String(0.04 + p * 0.02);
 
-        goTo(Math.floor(p * N));
+        // Slide index with small buffer zones so transitions feel natural
+        const rawIdx = p * N;
+        const idx = Math.floor(rawIdx);
+        goTo(Math.min(N - 1, idx));
     }
 
-    // rAF loop — runs every frame no matter what
     (function loop() { update(); requestAnimationFrame(loop); })();
 
     // Dot clicks
@@ -1017,5 +1093,6 @@ function initJourney() {
         else window.scrollTo({ top: target, behavior: 'smooth' });
     }));
 
+    cur = -1;
     goTo(0);
 }
