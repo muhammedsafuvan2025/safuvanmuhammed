@@ -6,7 +6,7 @@ const themeToggle = document.getElementById('themeToggle');
 const themeIcon   = themeToggle.querySelector('.theme-icon');
 const html        = document.documentElement;
 
-const currentTheme = localStorage.getItem('theme') || 'light';
+const currentTheme = localStorage.getItem('theme') || 'dark';
 html.setAttribute('data-theme', currentTheme);
 updateThemeIcon(currentTheme);
 
@@ -323,6 +323,8 @@ function initIntro() {
     const intro     = document.getElementById('intro');
     if (!intro) return;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { intro.remove(); return; }
+    // On mobile, skip intro and let hero animate immediately
+    if (window.innerWidth < 768) { intro.remove(); return; }
 
     const eyebrow   = document.getElementById('introEyebrow');
     const nameEl    = document.getElementById('introName');
@@ -371,13 +373,14 @@ function initIntro() {
             }, 22);
         }, 1700);
 
-        // Exit after bar fills
-        setTimeout(exitIntro, 3100);
+        // Exit after bar fills — shorter on mobile
+        const isMobile = window.innerWidth <= 768;
+        setTimeout(exitIntro, isMobile ? 2000 : 3100);
     }
 
     function exitIntro() {
         intro.classList.add('exit');
-        setTimeout(() => intro.remove(), 950);
+        setTimeout(() => intro.remove(), 700);
     }
 
     startSequence();
