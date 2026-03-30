@@ -6,7 +6,10 @@ const themeToggle = document.getElementById('themeToggle');
 const themeIcon   = themeToggle.querySelector('.theme-icon');
 const html        = document.documentElement;
 
-const currentTheme = localStorage.getItem('theme') || 'dark';
+// Always default to dark — only switch to light if user explicitly chose it
+const storedTheme = localStorage.getItem('theme');
+const currentTheme = storedTheme === 'light' ? 'light' : 'dark';
+if (!storedTheme) localStorage.setItem('theme', 'dark');
 html.setAttribute('data-theme', currentTheme);
 updateThemeIcon(currentTheme);
 
@@ -323,8 +326,19 @@ function initIntro() {
     const intro     = document.getElementById('intro');
     if (!intro) return;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { intro.remove(); return; }
-    // On mobile, skip intro and let hero animate immediately
-    if (window.innerWidth < 768) { intro.remove(); return; }
+    // On mobile, skip intro and immediately trigger hero animations
+    if (window.innerWidth < 768) {
+        intro.remove();
+        // Override the 4s+ delays designed for desktop intro
+        const mobileTargets = document.querySelectorAll(
+            '.hf-topbar, .hf-label, .hf-line, .hf-muhammed, .hf-line2, .hf-sub, .hf-bottom, .hf-corner'
+        );
+        mobileTargets.forEach((el, i) => {
+            el.style.animationDelay = (0.15 + i * 0.1) + 's';
+            el.style.animationDuration = '0.6s';
+        });
+        return;
+    }
 
     const eyebrow   = document.getElementById('introEyebrow');
     const nameEl    = document.getElementById('introName');

@@ -1815,3 +1815,38 @@ section[id] {
     animation-duration: 0.01s !important;
   }
 }
+
+/* Mobile — hide intro completely, hero animates immediately */
+@media (max-width: 767px) {
+  .intro { display: none !important; }
+  
+  /* Hero animations start immediately on mobile (no intro delay) */
+  .hf-topbar {
+    opacity: 0;
+    animation: hfIn 0.6s ease 0.2s forwards !important;
+  }
+  .hf-label {
+    opacity: 0;
+    animation: hfIn 0.5s ease 0.3s forwards !important;
+  }
+  .hf-line {
+    opacity: 0;
+    transform: translateY(50px);
+    animation: hfSlide 0.7s cubic-bezier(0.16,1,0.3,1) 0.4s forwards !important;
+  }
+  .hf-line2 {
+    animation-delay: 0.55s !important;
+  }
+  .hf-sub {
+    opacity: 0;
+    animation: hfIn 0.5s ease 0.7s forwards !important;
+  }
+  .hf-bottom {
+    opacity: 0;
+    animation: hfIn 0.5s ease 0.85s forwards !important;
+  }
+  .hf-corner {
+    opacity: 0;
+    animation: hfIn 0.3s ease 0.95s forwards !important;
+  }
+}
