@@ -1178,3 +1178,68 @@ function initJourney() {
     cur = -1;
     goTo(0);
 }
+
+// ============================================================
+//  DRONE MODAL
+// ============================================================
+let droneStep = 0;
+const DRONE_TOTAL = 5;
+
+function openDroneModal() {
+    const modal = document.getElementById('droneModal');
+    if (!modal) return;
+    droneStep = 0;
+    renderDroneStep();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (window._lenis) window._lenis.stop();
+    playSound('whoosh');
+}
+
+function closeDroneModal() {
+    const modal = document.getElementById('droneModal');
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (window._lenis) window._lenis.start();
+    playSound('click');
+}
+
+function renderDroneStep() {
+    const steps = document.querySelectorAll('.dm-step');
+    const dots  = document.querySelectorAll('.dm-dot');
+    const prev  = document.querySelector('.dm-prev');
+    const next  = document.querySelector('.dm-next');
+
+    steps.forEach((s, i) => s.classList.toggle('active', i === droneStep));
+    dots.forEach((d, i)  => d.classList.toggle('active', i === droneStep));
+
+    if (prev) prev.disabled = droneStep === 0;
+    if (next) {
+        next.textContent = droneStep === DRONE_TOTAL - 1 ? 'Close ✕' : 'Next →';
+    }
+}
+
+function droneNext() {
+    if (droneStep >= DRONE_TOTAL - 1) { closeDroneModal(); return; }
+    droneStep++;
+    renderDroneStep();
+    playSound('click');
+}
+
+function dronePrev() {
+    if (droneStep <= 0) return;
+    droneStep--;
+    renderDroneStep();
+    playSound('click');
+}
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('droneModal');
+        if (modal && modal.classList.contains('open')) closeDroneModal();
+    }
+});

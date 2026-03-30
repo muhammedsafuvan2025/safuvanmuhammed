@@ -50,7 +50,7 @@
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#education" class="nav-link">Education</a></li>
-                <li><a href="Muhammed-Safuvan-resume.pdf" class="nav-link" target="_blank" rel="noopener noreferrer">Résumé</a></li>
+                <li><a href="assets/Muhammed-Safuvan-resume.pdf" class="nav-link" target="_blank" rel="noopener noreferrer">Résumé</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -99,7 +99,7 @@
             <div class="hf-bottom-left">
                 <a href="#contact" class="hf-cta">Get In Touch</a>
                 <a href="#projects" class="hf-link">View work →</a>
-                <a href="Muhammed-Safuvan-resume.pdf" class="hf-link" target="_blank" rel="noopener noreferrer">Résumé ↗</a>
+                <a href="assets/Muhammed-Safuvan-resume.pdf" class="hf-link" target="_blank" rel="noopener noreferrer">Résumé ↗</a>
             </div>
             <div class="hf-scroll-hint">
                 <div class="hf-scroll-line"></div>
@@ -380,65 +380,56 @@
         <div class="container">
             <h2 class="section-title">Featured Projects</h2>
             <div class="projects-grid">
+
+                <!-- SAFE SURF -->
                 <div class="project-card">
                     <div class="project-header">
                         <div class="project-icon">🔒</div>
                         <div class="project-links">
-                            <a href="https://muhammedsafuvan2025.github.io/safeSurfWebsite/#" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Safe Surf Extension website">🔗</a>
+                            <a href="https://muhammedsafuvan2025.github.io/safeSurfWebsite/#" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Safe Surf Extension website">↗</a>
                         </div>
                     </div>
-                    <h3 class="project-title">
-                        <a href="https://muhammedsafuvan2025.github.io/safeSurfWebsite/#" target="_blank" rel="noopener noreferrer" class="project-title-link">Safe Surf – Chrome Extension for Safer Browsing</a>
-                    </h3>
+                    <h3 class="project-title">Safe Surf – Chrome Extension</h3>
                     <p class="project-description">
-                        Engineered a Chrome extension that scrapes Terms & Conditions and privacy policies from websites. 
-                        Implemented custom regex patterns to extract and flag high-risk keywords (e.g., "third-party," "track," "share," etc.). 
-                        Integrated AI-based text summarization (via OpenAI API) to generate concise risk insights.
+                        A Chrome extension that reads Terms &amp; Conditions and privacy policies so you don't have to.
+                        Flags high-risk keywords, scores privacy threats, and uses AI to summarise what you're agreeing to.
                     </p>
-                    <div class="project-features">
-                        <h4>Key Features:</h4>
-                        <ul>
-                            <li>Automated scraping of Terms & Conditions and privacy policies</li>
-                            <li>Custom regex pattern matching for risk detection</li>
-                            <li>AI-powered text summarization for quick insights</li>
-                            <li>Risk scoring system for privacy threat assessment</li>
-                        </ul>
-                    </div>
                     <div class="project-tech">
                         <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">HTML</span>
-                        <span class="tech-tag">CSS</span>
-                        <span class="tech-tag">Data Scraping</span>
                         <span class="tech-tag">OpenAI API</span>
                         <span class="tech-tag">Chrome Extension</span>
+                        <span class="tech-tag">Data Scraping</span>
                     </div>
+                    <a href="https://muhammedsafuvan2025.github.io/safeSurfWebsite/#"
+                       target="_blank" rel="noopener noreferrer"
+                       class="project-visit-btn">
+                        View Live Site <span>→</span>
+                    </a>
                 </div>
-                <div class="project-card">
+
+                <!-- DRONE — clickable, opens animated modal -->
+                <div class="project-card drone-card" id="droneCard" style="cursor:pointer;" onclick="openDroneModal()">
                     <div class="project-header">
                         <div class="project-icon">🛰️</div>
                         <div class="project-links">
-                            <!-- Placeholder for future demo link -->
+                            <span class="project-link drone-click-hint">click to explore →</span>
                         </div>
                     </div>
-                    <h3 class="project-title">Thermal Imaging Drone – Field Monitoring Project</h3>
+                    <h3 class="project-title">Thermal Imaging Drone</h3>
                     <p class="project-description">
-                        Collaborated in a team to design and build a functional drone equipped with thermal imaging capabilities for field monitoring. 
-                        Helped develop Python-based scripts to process thermal data and analyze heat signatures in real-world conditions.
+                        Final year engineering project. Built a drone from scratch, mounted a thermal sensor,
+                        and wrote Python code to detect heat signatures of animals hiding in agricultural fields —
+                        invisible to traditional drones.
                     </p>
-                    <div class="project-features">
-                        <h4>Key Contributions:</h4>
-                        <ul>
-                            <li>Worked on Python scripts to process and analyze thermal sensor data</li>
-                            <li>Supported basic logic to differentiate humans and animals based on temperature and movement patterns</li>
-                            <li>Gained experience with embedded systems, sensor integration, and hardware–software debugging</li>
-                            <li>Participated in field testing, tuning thresholds, and validating results against real scenarios</li>
-                        </ul>
-                    </div>
                     <div class="project-tech">
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">Embedded Systems</span>
                         <span class="tech-tag">Thermal Imaging</span>
-                        <span class="tech-tag">Sensor Data Processing</span>
+                        <span class="tech-tag">Computer Vision</span>
+                    </div>
+                    <div class="drone-pulse-hint">
+                        <span class="dp-dot"></span>
+                        <span>interactive story inside</span>
                     </div>
                 </div>
                 <div class="project-card">
@@ -481,7 +472,7 @@
             <div class="education-grid">
                 <div class="education-card">
                     <div class="education-icon">
-                        <img src="fanshawe-logo.png" alt="Fanshawe College Logo" class="education-logo">
+                        <img src="assets/fanshawe-logo.png" alt="Fanshawe College Logo" class="education-logo">
                     </div>
                     <h3 class="education-degree">Post Graduate Certificate</h3>
                     <p class="education-field">Business & Information Systems Architecture</p>
@@ -494,7 +485,7 @@
                 </div>
                 <div class="education-card">
                     <div class="education-icon">
-                        <img src="cusat-logo.png" alt="CUSAT Logo" class="education-logo">
+                        <img src="assets/cusat-logo.png" alt="CUSAT Logo" class="education-logo">
                     </div>
                     <h3 class="education-degree">B.Tech</h3>
                     <p class="education-field">Electronics and Communication Engineering</p>
@@ -574,6 +565,135 @@
             </div>
             <input class="cmdk-input" id="cmdkInput" type="text" placeholder="Type to search… (e.g. resume, projects, contact)" autocomplete="off" />
             <div class="cmdk-list" id="cmdkList" role="listbox" aria-label="Actions list"></div>
+        </div>
+    </div>
+
+
+    <!-- Drone Project Modal -->
+    <div class="drone-modal" id="droneModal" aria-hidden="true">
+        <div class="drone-modal-backdrop" onclick="closeDroneModal()"></div>
+        <div class="drone-modal-panel">
+            <button class="drone-modal-close" onclick="closeDroneModal()">✕</button>
+
+            <!-- Progress dots -->
+            <div class="dm-dots">
+                <div class="dm-dot active" data-step="0"></div>
+                <div class="dm-dot" data-step="1"></div>
+                <div class="dm-dot" data-step="2"></div>
+                <div class="dm-dot" data-step="3"></div>
+                <div class="dm-dot" data-step="4"></div>
+            </div>
+
+            <!-- Steps -->
+            <div class="dm-steps">
+
+                <div class="dm-step active" data-step="0">
+                    <div class="dm-visual">
+                        <div class="dm-drone-svg">
+                            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="40" cy="40" r="14" stroke="#22c55e" stroke-width="1.5" opacity="0.6"/>
+                                <circle cx="160" cy="40" r="14" stroke="#22c55e" stroke-width="1.5" opacity="0.6"/>
+                                <circle cx="40" cy="80" r="14" stroke="#22c55e" stroke-width="1.5" opacity="0.6"/>
+                                <circle cx="160" cy="80" r="14" stroke="#22c55e" stroke-width="1.5" opacity="0.6"/>
+                                <rect x="85" y="50" width="30" height="20" rx="4" fill="#22c55e" opacity="0.15" stroke="#22c55e" stroke-width="1"/>
+                                <line x1="40" y1="40" x2="85" y2="57" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+                                <line x1="160" y1="40" x2="115" y2="57" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+                                <line x1="40" y1="80" x2="85" y2="63" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+                                <line x1="160" y1="80" x2="115" y2="63" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+                                <ellipse cx="40" cy="40" rx="18" ry="4" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.3" class="rotor"/>
+                                <ellipse cx="160" cy="40" rx="18" ry="4" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.3" class="rotor"/>
+                                <ellipse cx="40" cy="80" rx="18" ry="4" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.3" class="rotor"/>
+                                <ellipse cx="160" cy="80" rx="18" ry="4" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.3" class="rotor"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="dm-tag">01 — The Problem</div>
+                    <h2 class="dm-title">Animals hiding in plain sight</h2>
+                    <p class="dm-body">Agricultural fields in Kerala face a serious issue — wild animals like boars and deer hide inside dense bushes at night, destroying crops. Traditional drones with RGB cameras can't see them. We built the solution for our final year engineering project at CUSAT.</p>
+                </div>
+
+                <div class="dm-step" data-step="1">
+                    <div class="dm-visual">
+                        <div class="dm-build-anim">
+                            <div class="dm-part dm-frame">Frame</div>
+                            <div class="dm-part dm-motors">× 4 Motors</div>
+                            <div class="dm-part dm-fc">Flight Controller</div>
+                            <div class="dm-part dm-esc">ESC</div>
+                            <div class="dm-part dm-sensor">Thermal Sensor</div>
+                        </div>
+                    </div>
+                    <div class="dm-tag">02 — The Build</div>
+                    <h2 class="dm-title">Built from scratch</h2>
+                    <p class="dm-body">We assembled the entire drone from raw components — carbon fibre frame, brushless motors, ESC controllers, a flight controller board, and a thermal imaging sensor module. Every part calibrated by hand. This wasn't a kit — we built it.</p>
+                </div>
+
+                <div class="dm-step" data-step="2">
+                    <div class="dm-visual">
+                        <div class="dm-thermal-view">
+                            <div class="dm-field">
+                                <div class="dm-bush b1"></div>
+                                <div class="dm-bush b2"></div>
+                                <div class="dm-bush b3"></div>
+                                <div class="dm-heat-sig h1" title="heat signature detected">
+                                    <span class="dm-heat-ring"></span>
+                                </div>
+                                <div class="dm-heat-sig h2" title="heat signature detected">
+                                    <span class="dm-heat-ring"></span>
+                                </div>
+                            </div>
+                            <div class="dm-scanline"></div>
+                        </div>
+                    </div>
+                    <div class="dm-tag">03 — The Tech</div>
+                    <h2 class="dm-title">Seeing heat through foliage</h2>
+                    <p class="dm-body">The thermal sensor detects infrared radiation — animal body heat shows up as bright signatures even through dense bush cover. We mounted it on a gimbal for stable aerial capture. What's invisible to the human eye from 30 metres up becomes clearly visible on our feed.</p>
+                </div>
+
+                <div class="dm-step" data-step="3">
+                    <div class="dm-visual">
+                        <div class="dm-code-block">
+                            <div class="dm-code-line"><span class="dc-kw">import</span> <span class="dc-mod">thermal_sdk</span>, <span class="dc-mod">numpy</span> <span class="dc-kw">as</span> <span class="dc-mod">np</span></div>
+                            <div class="dm-code-line dm-code-gap"></div>
+                            <div class="dm-code-line"><span class="dc-kw">def</span> <span class="dc-fn">detect_signatures</span>(frame):</div>
+                            <div class="dm-code-line dc-indent"><span class="dc-cm"># Threshold: animal temp 36-39°C</span></div>
+                            <div class="dm-code-line dc-indent">hot = frame[frame <span class="dc-op">&gt;</span> <span class="dc-num">36.0</span>]</div>
+                            <div class="dm-code-line dc-indent">clusters = <span class="dc-fn">find_clusters</span>(hot)</div>
+                            <div class="dm-code-line dc-indent"><span class="dc-kw">for</span> c <span class="dc-kw">in</span> clusters:</div>
+                            <div class="dm-code-line dc-indent2"><span class="dc-fn">flag_animal</span>(c.centroid)</div>
+                            <div class="dm-code-line dc-indent"><span class="dc-kw">return</span> clusters</div>
+                        </div>
+                    </div>
+                    <div class="dm-tag">04 — The Code</div>
+                    <h2 class="dm-title">Python doing the thinking</h2>
+                    <p class="dm-body">We wrote Python scripts to process the raw thermal data in real time. The algorithm thresholds temperature ranges (animal body heat is 36–39°C), finds heat clusters in the frame, filters out environmental noise, and flags potential signatures with GPS coordinates for ground teams.</p>
+                </div>
+
+                <div class="dm-step" data-step="4">
+                    <div class="dm-visual">
+                        <div class="dm-result-anim">
+                            <div class="dm-result-circle">
+                                <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="251" stroke-dashoffset="251" class="dm-result-ring"/></svg>
+                                <span class="dm-result-icon">✓</span>
+                            </div>
+                            <div class="dm-result-stats">
+                                <div class="dm-stat"><span class="dm-stat-n">4</span><span class="dm-stat-l">rotors</span></div>
+                                <div class="dm-stat"><span class="dm-stat-n">~30m</span><span class="dm-stat-l">altitude</span></div>
+                                <div class="dm-stat"><span class="dm-stat-n">live</span><span class="dm-stat-l">thermal feed</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dm-tag">05 — The Outcome</div>
+                    <h2 class="dm-title">It flew. It detected.</h2>
+                    <p class="dm-body">The drone flew, the thermal sensor streamed live data, and the Python pipeline correctly flagged heat signatures in field tests. A working proof-of-concept for precision agriculture — detection of animals invisible to traditional surveillance, built entirely by a team of engineering students from scratch.</p>
+                </div>
+
+            </div>
+
+            <!-- Nav buttons -->
+            <div class="dm-nav">
+                <button class="dm-btn dm-prev" onclick="dronePrev()" disabled>← Prev</button>
+                <button class="dm-btn dm-next" onclick="droneNext()">Next →</button>
+            </div>
         </div>
     </div>
 
