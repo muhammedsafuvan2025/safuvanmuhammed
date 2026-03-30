@@ -1797,28 +1797,8 @@ section[id] {
   }
 }
 
-/* ── MOBILE: hero animations don't wait for intro ────────────── */
-@media (max-width: 768px) {
-  .hf-topbar  { animation-delay: 0.3s !important; }
-  .hf-label   { animation-delay: 0.4s !important; }
-  .hf-line.hf-muhammed { animation-delay: 0.5s !important; }
-  .hf-line.hf-line2    { animation-delay: 0.65s !important; }
-  .hf-sub     { animation-delay: 0.8s !important; }
-  .hf-bottom  { animation-delay: 0.9s !important; }
-  .hf-corner  { animation-delay: 1s !important; }
 }
 
-/* ── REDUCED MOTION: same fast delays ─────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .hf-topbar, .hf-label, .hf-line, .hf-sub, .hf-bottom, .hf-corner {
-    animation-delay: 0.1s !important;
-    animation-duration: 0.01s !important;
-  }
-}
-
-/* Mobile — hide intro completely, hero animates immediately */
-@media (max-width: 767px) {
-  .intro { display: none !important; }
   
   /* Hero animations start immediately on mobile (no intro delay) */
   .hf-topbar {
@@ -1849,4 +1829,76 @@ section[id] {
     opacity: 0;
     animation: hfIn 0.3s ease 0.95s forwards !important;
   }
+}
+
+/* ================================================================
+   MOBILE HERO — immediate animations, no intro delay
+   Using body prefix for higher specificity than base rules
+   ================================================================ */
+@media (max-width: 767px) {
+
+  /* Hide intro entirely on mobile */
+  .intro { display: none !important; }
+
+  /* Remove custom cursor on touch devices */
+  .cursor-dot, .cursor-ring { display: none !important; }
+  *, *::before, *::after { cursor: auto !important; }
+
+  /* Hero animations start immediately */
+  body .hf-topbar {
+    opacity: 0;
+    animation-name: hfIn !important;
+    animation-duration: 0.6s !important;
+    animation-delay: 0.2s !important;
+    animation-fill-mode: forwards !important;
+  }
+  body .hf-label {
+    opacity: 0;
+    animation-name: hfIn !important;
+    animation-duration: 0.5s !important;
+    animation-delay: 0.35s !important;
+    animation-fill-mode: forwards !important;
+  }
+  body .hf-line {
+    opacity: 0;
+    transform: translateY(50px);
+    animation-name: hfSlide !important;
+    animation-duration: 0.7s !important;
+    animation-delay: 0.5s !important;
+    animation-fill-mode: forwards !important;
+    animation-timing-function: cubic-bezier(0.16,1,0.3,1) !important;
+  }
+  body .hf-line2 {
+    animation-delay: 0.65s !important;
+  }
+  body .hf-sub {
+    opacity: 0;
+    animation-name: hfIn !important;
+    animation-duration: 0.5s !important;
+    animation-delay: 0.85s !important;
+    animation-fill-mode: forwards !important;
+  }
+  body .hf-bottom {
+    opacity: 0;
+    animation-name: hfIn !important;
+    animation-duration: 0.5s !important;
+    animation-delay: 1s !important;
+    animation-fill-mode: forwards !important;
+  }
+  body .hf-corner {
+    opacity: 0;
+    animation-name: hfIn !important;
+    animation-duration: 0.3s !important;
+    animation-delay: 1.1s !important;
+    animation-fill-mode: forwards !important;
+  }
+
+  /* Mobile layout fixes */
+  .hf-topbar, .hf-bottom { padding: 0 1.2rem; }
+  .hf-center { padding: 0 1.2rem; }
+  .hf-sub { flex-direction: column; gap: 0.3rem; }
+  .hf-divider { display: none; }
+  .hf-scroll-hint { display: none; }
+  .hf-line { font-size: clamp(2.8rem, 14vw, 5rem); }
+  .hf-bottom-left { gap: 1rem; flex-wrap: wrap; }
 }

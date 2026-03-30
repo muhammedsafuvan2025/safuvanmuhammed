@@ -326,17 +326,9 @@ function initIntro() {
     const intro     = document.getElementById('intro');
     if (!intro) return;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { intro.remove(); return; }
-    // On mobile, skip intro and immediately trigger hero animations
+    // On mobile — CSS handles the delays, just remove the intro
     if (window.innerWidth < 768) {
         intro.remove();
-        // Override the 4s+ delays designed for desktop intro
-        const mobileTargets = document.querySelectorAll(
-            '.hf-topbar, .hf-label, .hf-line, .hf-muhammed, .hf-line2, .hf-sub, .hf-bottom, .hf-corner'
-        );
-        mobileTargets.forEach((el, i) => {
-            el.style.animationDelay = (0.15 + i * 0.1) + 's';
-            el.style.animationDuration = '0.6s';
-        });
         return;
     }
 
@@ -539,9 +531,14 @@ function initCustomCursor() {
     const dot  = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
     if (!dot) return;
-    if (ring) ring.style.display = 'none'; // no ring, just precise dot
+    if (ring) ring.style.display = 'none';
 
-    if (!window.matchMedia('(hover: hover)').matches) return;
+    // Disable on touch/mobile devices
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        dot.style.display = 'none';
+        return;
+    }
+    if (window.innerWidth < 768) { dot.style.display = 'none'; return; }
 
     let mouseX = 0, mouseY = 0;
     let dotX = 0, dotY = 0;
@@ -1071,6 +1068,7 @@ function initJourney() {
 
     let cur = -1;
     let isAnimating = false;
+    let animTimer = null;
 
     // Animate individual characters of year
     function animateYear(newYear) {
@@ -1113,6 +1111,10 @@ function initJourney() {
     function goTo(i) {
         i = Math.max(0, Math.min(N - 1, i));
         if (i === cur) return;
+        if (isAnimating) return;
+        isAnimating = true;
+        clearTimeout(animTimer);
+        animTimer = setTimeout(() => { isAnimating = false; }, 300);
         const prev = cur; cur = i;
 
         // Animate left panel
@@ -1131,6 +1133,7 @@ function initJourney() {
                 // Incoming card: set start position then animate in
                 c.style.transition = 'none';
                 c.style.opacity = '0';
+                c.style.pointerEvents = 'auto';
                 c.style.transform = `translateY(calc(-50% + ${goingForward ? 60 : -60}px))`;
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
@@ -1141,10 +1144,15 @@ function initJourney() {
                 });
             } else if (k === prev && prev >= 0) {
                 // Outgoing card: animate out in opposite direction
+                c.style.pointerEvents = 'none';
                 c.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.4,0,1,1)';
                 c.style.opacity = '0';
                 c.style.transform = `translateY(calc(-50% + ${goingForward ? -60 : 60}px))`;
                 setTimeout(() => { c.style.transition = 'none'; }, 420);
+            } else {
+                // All other cards: ensure they are hidden
+                c.style.opacity = '0';
+                c.style.pointerEvents = 'none';
             }
         });
     }
