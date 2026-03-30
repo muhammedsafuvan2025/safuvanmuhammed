@@ -133,10 +133,11 @@ window.addEventListener('mouseleave', () => document.body.classList.remove('spot
 //  GLITCH EFFECT
 // ============================================================
 function initGlitch() {
-    const nameEl = document.querySelector('.gradient-text');
+    // Only glitch the full name element, not individual hero lines
+    const nameEl = document.querySelector('.glitch-name:not(.hf-line)') 
+                || document.querySelector('.gradient-text:not(.hf-line)');
     if (!nameEl) return;
     nameEl.setAttribute('data-text', nameEl.textContent);
-    nameEl.classList.add('glitch-name');
     function doGlitch() {
         nameEl.classList.add('glitching');
         setTimeout(() => nameEl.classList.remove('glitching'), 400);
@@ -167,7 +168,8 @@ function scrambleText(el, finalText, duration) {
 }
 
 function initScramble() {
-    const nameEl = document.querySelector('.gradient-text');
+    // Only scramble a non-hf-line gradient text element
+    const nameEl = document.querySelector('.gradient-text:not(.hf-line)');
     if (!nameEl) return;
     const original = nameEl.textContent;
     setTimeout(() => scrambleText(nameEl, original, 1400), 1900);
@@ -579,9 +581,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
     initScrollReveal();
     // ── NEW FEATURES ──
-    initParticleNetwork();
+    // initParticleNetwork(); // removed
     initScrollTransitions();
     initSkillBars();
+    initClock();
     initLenis();
     initJourney();
 });
@@ -621,7 +624,7 @@ function initParticleNetwork() {
     const canvas = document.getElementById('particleNetwork');
     if (!canvas || typeof THREE === 'undefined') return;
 
-    const hero = document.querySelector('.hero');
+    const hero = document.querySelector('.hero-full') || document.querySelector('.hero');
     const W = hero.offsetWidth, H = hero.offsetHeight;
 
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
@@ -787,45 +790,105 @@ function initParticleNetwork() {
 //  FEATURE 03 — SCROLL-DRIVEN SECTION TRANSITIONS
 // ============================================================
 function initScrollTransitions() {
-    // Wipe effect when sections enter viewport
-    const sections = document.querySelectorAll('section[id]');
-    const wipeObs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('section-wipe', 'wipe-active');
-                setTimeout(() => entry.target.classList.remove('wipe-active'), 1000);
-                wipeObs.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.08 });
+    // ── Per-element cinematic reveal ────────────────────────────
+    // Each element type gets its own entrance animation
+    // driven by IntersectionObserver
 
-    sections.forEach(s => wipeObs.observe(s));
+    const config = [
+        // [selector, initial transform, transition]
+        ['.section-title',    'translateY(0) clipPath',  ''],
+        ['.section-label',    'translateX(-24px)',         'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)'],
+        ['.about-text p',     'translateY(36px)',          'opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1)'],
+        ['.skill-category',   'translateY(44px) scale(0.96)', 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1)'],
+        ['.project-card',     'translateY(60px) rotate(-0.8deg)', 'opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1)'],
+        ['.education-card',   'translateY(48px) scale(0.97)', 'opacity 0.65s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1)'],
+        ['.contact-item',     'translateY(32px)',          'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1)'],
+        ['.contact-cta',      'translateY(32px)',          'opacity 0.6s ease 0.2s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.2s'],
+        ['.timeline-content', 'translateX(-40px)',         'opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1)'],
+    ];
 
-    // Per-element reveal with stagger and unique transforms per type
-    const revealTargets = document.querySelectorAll(
-        '.about-text p, .skill-category, .timeline-item, .project-card, ' +
-        '.education-card, .contact-item, .contact-cta, .section-title, ' +
-        '.section-label, .terminal-block'
-    );
-
-    revealTargets.forEach((el, i) => {
-        el.setAttribute('data-reveal', '');
-        // Stagger by element type
-        const baseDelay = (i % 5) * 70;
-        el.style.transitionDelay = baseDelay + 'ms';
+    // Section titles use clip-path reveal
+    document.querySelectorAll('.section-title').forEach(el => {
+        el.style.clipPath = 'inset(0 100% 0 0)';
+        el.style.transition = 'clip-path 1s cubic-bezier(0.16,1,0.3,1)';
     });
 
-    const revObs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
-                revObs.unobserve(entry.target);
-            }
+    // All other elements
+    const allEls = [];
+    config.filter(c => c[0] !== '.section-title').forEach(([sel, transform, transition], ci) => {
+        document.querySelectorAll(sel).forEach((el, i) => {
+            // Stagger same-type siblings
+            const delay = (i % 5) * 90;
+            el.style.opacity = '0';
+            el.style.transform = transform;
+            el.style.transition = transition
+                ? transition + `, filter 0s`
+                : `opacity 0.6s ease ${delay}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
+            el.style.willChange = 'opacity, transform';
+            allEls.push(el);
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    });
 
-    revealTargets.forEach(el => revObs.observe(el));
+    // Alternate timeline items direction
+    document.querySelectorAll('.timeline-item').forEach((el, i) => {
+        const dir = i % 2 === 0 ? -50 : 50;
+        el.style.opacity = '0';
+        el.style.transform = `translateX(${dir}px)`;
+        el.style.transition = `opacity 0.7s ease ${i * 100}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms`;
+        allEls.push(el);
+    });
+
+    // Single observer for everything
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            if (el.classList.contains('section-title')) {
+                el.style.clipPath = 'inset(0 0% 0 0)';
+            } else {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0) translateX(0) scale(1) rotate(0deg)';
+            }
+            obs.unobserve(el);
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    [...document.querySelectorAll('.section-title'), ...allEls].forEach(el => obs.observe(el));
+
+    // ── Ghost section numbers ───────────────────────────────────
+    ['about','skills','experience','projects','education','contact'].forEach((id, i) => {
+        const sec = document.getElementById(id);
+        if (!sec) return;
+        if (!['relative','absolute','fixed','sticky'].includes(getComputedStyle(sec).position)) {
+            sec.style.position = 'relative';
+        }
+        const num = document.createElement('div');
+        num.textContent = String(i + 1).padStart(2, '0');
+        num.style.cssText = 'position:absolute;top:2.5rem;right:2.5rem;font-family:JetBrains Mono,monospace;font-size:6rem;font-weight:700;color:var(--accent);opacity:0.03;line-height:1;pointer-events:none;user-select:none;z-index:0;letter-spacing:-0.04em;';
+        sec.appendChild(num);
+    });
+
+    // ── Smooth section entrance line ────────────────────────────
+    // A thin green line sweeps across the top of each section as it enters
+    document.querySelectorAll('section[id]:not(#home)').forEach(sec => {
+        const line = document.createElement('div');
+        line.style.cssText = 'position:absolute;top:0;left:0;height:1px;width:0;background:var(--accent);opacity:0.4;transition:width 0.9s cubic-bezier(0.16,1,0.3,1);z-index:1;pointer-events:none;';
+        if (!['relative','absolute','fixed','sticky'].includes(getComputedStyle(sec).position)) {
+            sec.style.position = 'relative';
+        }
+        sec.prepend(line);
+
+        const lineObs = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                setTimeout(() => line.style.width = '100%', 100);
+                lineObs.disconnect();
+            }
+        }, { threshold: 0.05 });
+        lineObs.observe(sec);
+    });
 }
+
+
 
 // ============================================================
 
@@ -894,6 +957,25 @@ function initSkillBars() {
 
 
 // ============================================================
+
+// ============================================================
+//  LIVE CLOCK
+// ============================================================
+function initClock() {
+    const el = document.getElementById('hfTime');
+    if (!el) return;
+    function tick() {
+        const now = new Date().toLocaleTimeString('en-CA', {
+            timeZone: 'America/Toronto',
+            hour12: false,
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        el.textContent = now;
+    }
+    tick();
+    setInterval(tick, 1000);
+}
+
 
 // ============================================================
 //  LENIS SMOOTH SCROLL

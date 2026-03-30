@@ -50,7 +50,7 @@
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#education" class="nav-link">Education</a></li>
-                <li><a href="Muhammed-Safuvan-resume.pdf" class="nav-link" target="_blank" rel="noopener noreferrer">Résumé</a></li>
+                <li><a href="assets/Muhammed-Safuvan-resume.pdf" class="nav-link" target="_blank" rel="noopener noreferrer">Résumé</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -70,44 +70,48 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <canvas id="particleNetwork"></canvas>
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-meta">
-                    <span class="hero-meta-line"><span class="meta-key">role</span><span class="meta-sep">//</span><span class="meta-val">System Administrator · IT Support</span></span>
-                    <span class="hero-meta-line"><span class="meta-key">location</span><span class="meta-sep">//</span><span class="meta-val">London, ON, Canada</span></span>
-                    <span class="hero-meta-line"><span class="meta-key">status</span><span class="meta-sep">//</span><span class="otw-dot"></span><span class="meta-val meta-available">open to work</span></span>
-                </div>
-                <h1 class="hero-title">
-                    <span class="hero-hi">Hi, I'm</span>
-                    <span class="gradient-text glitch-name" data-text="Muhammed Safuvan">Muhammed Safuvan</span>
-                </h1>
-                <p class="hero-description">
-                    Tech-focused graduate with hands-on experience in IT support, cloud platforms, and system administration. 
-                    Strong in troubleshooting Windows/Linux environments, Microsoft 365, Active Directory, and networking fundamentals.
-                </p>
-                <div class="hero-actions">
-                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                    <a href="#projects" class="hero-link">View my work <span class="hero-link-arrow">→</span></a>
-                    <a href="Muhammed-Safuvan-resume.pdf" class="hero-link" target="_blank" rel="noopener noreferrer">Download Résumé <span class="hero-link-arrow">↗</span></a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="floating-card card-1">
-                    <span class="card-icon">☁️</span>
-                    <span>Cloud Support</span>
-                </div>
-                <div class="floating-card card-2">
-                    <span class="card-icon">🔧</span>
-                    <span>IT Solutions</span>
-                </div>
-                <div class="floating-card card-3">
-                    <span class="card-icon">💻</span>
-                    <span>System Admin</span>
-                </div>
+    <section id="home" class="hero-full">
+        <!-- Top status bar -->
+        <div class="hf-topbar">
+            <span class="hf-status"><span class="otw-dot"></span>open to work</span>
+            <span class="hf-loc">London, ON, Canada</span>
+            <span class="hf-time" id="hfTime">--:--:--</span>
+        </div>
+
+        <!-- Full-bleed name -->
+        <div class="hf-center">
+            <div class="hf-label">sys.admin · cloud · it.support</div>
+            <h1 class="hf-name">
+                <span class="hf-line hf-muhammed">Muhammed</span>
+                <span class="hf-line hf-line2">Safuvan</span>
+            </h1>
+            <div class="hf-sub">
+                <span class="hf-sub-item">Windows · Linux · macOS</span>
+                <span class="hf-divider">—</span>
+                <span class="hf-sub-item">Microsoft 365 · Azure · AWS</span>
+                <span class="hf-divider">—</span>
+                <span class="hf-sub-item">Active Directory · Networking</span>
             </div>
         </div>
+
+        <!-- Bottom action bar -->
+        <div class="hf-bottom">
+            <div class="hf-bottom-left">
+                <a href="#contact" class="hf-cta">Get In Touch</a>
+                <a href="#projects" class="hf-link">View work →</a>
+                <a href="assets/Muhammed-Safuvan-resume.pdf" class="hf-link" target="_blank" rel="noopener noreferrer">Résumé ↗</a>
+            </div>
+            <div class="hf-scroll-hint">
+                <div class="hf-scroll-line"></div>
+                <span>scroll</span>
+            </div>
+        </div>
+
+        <!-- Corner bracket decorations -->
+        <div class="hf-corner hf-tl"></div>
+        <div class="hf-corner hf-tr"></div>
+        <div class="hf-corner hf-bl"></div>
+        <div class="hf-corner hf-br"></div>
     </section>
 
     <!-- About Section -->
@@ -477,7 +481,7 @@
             <div class="education-grid">
                 <div class="education-card">
                     <div class="education-icon">
-                        <img src="fanshawe-logo.png" alt="Fanshawe College Logo" class="education-logo">
+                        <img src="assets/fanshawe-logo.png" alt="Fanshawe College Logo" class="education-logo">
                     </div>
                     <h3 class="education-degree">Post Graduate Certificate</h3>
                     <p class="education-field">Business & Information Systems Architecture</p>
@@ -490,7 +494,7 @@
                 </div>
                 <div class="education-card">
                     <div class="education-icon">
-                        <img src="cusat-logo.png" alt="CUSAT Logo" class="education-logo">
+                        <img src="assets/cusat-logo.png" alt="CUSAT Logo" class="education-logo">
                     </div>
                     <h3 class="education-degree">B.Tech</h3>
                     <p class="education-field">Electronics and Communication Engineering</p>
