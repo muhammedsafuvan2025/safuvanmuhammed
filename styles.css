@@ -493,6 +493,14 @@ body.spotlight-on .spotlight { opacity:1; }
 }
 .hf-link:hover { color: var(--accent); }
 
+.hf-linkedin {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  top: 1px;
+}
+.hf-linkedin svg { transition: color 0.2s; }
+
 .hf-scroll-hint {
   display: flex;
   align-items: center;
